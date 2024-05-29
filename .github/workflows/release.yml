@@ -54,9 +54,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.VERSION }}
+          tag_name: "${{ env.VERSION }}"
           body_path: release.txt
-          files: ./build/*.exe
+          files: ./build/*
 
   # Mac:
   #   name: Mac
