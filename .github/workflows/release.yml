@@ -22,10 +22,12 @@ jobs:
 
       - name: Setup Node Env
         uses: ./.github/actions/setup
-
+      - name: 设置变量
+        id: compile
+        run: |
+          echo "version=$(bash version.sh)" >> $GITHUB_ENV
       - name: Build src code
         run: |
-          echo "version=$(bash ./version.sh)" >> $GITHUB_ENV
           git status --porcelain
           npm run pack:win
 
@@ -67,14 +69,17 @@ jobs:
           python3 -m venv ~/.venv
           source ~/.venv/bin/activate
           python3 -m pip install setuptools
-
+      - name: 设置变量
+        id: compile
+        run: |
+          echo "version=$(bash version.sh)" >> $GITHUB_ENV
+          echo "下载软件app">> release.txt
       - name: Setup Node Env
         uses: ./.github/actions/setup
 
       - name: Build src code
         run: |
-          echo "下载软件app">> release.txt
-          echo "version=$(bash ./version.sh)" >> $GITHUB_ENV
+         
           git status --porcelain
           npm run pack:mac
 
