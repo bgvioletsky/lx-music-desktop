@@ -51,4 +51,44 @@ jobs:
           body_path: release.txt
           files: ./build/*.exe
 
-  
+  Mac:
+    name: Mac
+    runs-on: macos-latest
+    env:
+      NPM_CACHE: $HOME/.npm
+    # needs: CheckCode
+    steps:
+      - name: Check out git repository
+        uses: actions/checkout@v4
+
+      - name: Install python3 setuptools
+        run: |
+          mkdir ~/.venv
+          python3 -m venv ~/.venv
+          source ~/.venv/bin/activate
+          python3 -m pip install setuptools
+
+      - name: Setup Node Env
+        uses: ./.github/actions/setup
+
+      - name: Build src code
+        run: |
+          echo "下载软件app">> release.txt
+          echo "version=$(bash ./.github/workflows/version.sh)" >> $GITHUB_ENV
+          git status --porcelain
+          npm run pack:mac
+
+      - name: 发布到release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "mac-${{ env.VERSION }}"
+          body_path: release.txt
+          files: ./build/*.dmg
+
+      - name: Generate file MD5
+        run: |
+          cd build
+          md5 *.dmg
+
