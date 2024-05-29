@@ -22,7 +22,13 @@ jobs:
 
       - name: Setup Node Env
         uses: ./.github/actions/setup
-      
+        
+      - name: 设置变量
+        id: compile
+        run: |
+          echo "version=$(bash version.sh)" >> $GITHUB_ENV
+          echo "bgcode=$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_ENV
+          echo "下载软件app">> release.txt
       # - name: Build src code
       #   run: |
       #     git status --porcelain
@@ -31,8 +37,6 @@ jobs:
      
       - name: Generate file MD5
         run: |
-          echo "下载软件app">> release.txt
-          echo "version=$(bash ./version.sh)" >> $GITHUB_ENV
           # cd build
           # Get-FileHash *.exe,*.7z -Algorithm MD5 | Format-List
       - name: commit
