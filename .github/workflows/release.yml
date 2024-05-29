@@ -47,7 +47,7 @@ jobs:
       - name:  Push changes
         uses:  ad-m/github-push-action@master
         with:  
-          branch: main
+          branch: mastersa
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: 发布到release
         uses: softprops/action-gh-release@v1
