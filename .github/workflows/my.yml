@@ -25,6 +25,7 @@ jobs:
           node-version: '20'
       - name: Build src code
         run: |
+          npm install
           npm ci
           git status --porcelain
           npm run pack:win
