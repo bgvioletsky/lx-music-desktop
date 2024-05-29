@@ -25,7 +25,7 @@ jobs:
 
       - name: Build src code
         run: |
-          echo "version=$(bash ./.github/workflows/version.sh)" >> $GITHUB_ENV
+          echo "version=$(bash ./version.sh)" >> $GITHUB_ENV
           git status --porcelain
           npm run pack:win
 
@@ -47,7 +47,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.version }}
+          tag_name: "win-${{ env.VERSION }}"
           body_path: release.txt
           files: ./build/*.exe
 
