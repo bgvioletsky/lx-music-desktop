@@ -25,6 +25,7 @@ jobs:
 
       - name: Build src code
         run: |
+          echo "version=$(bash ./github/workflows/version.sh)" >> $GITHUB_ENV
           git status --porcelain
           npm run pack:win
 
@@ -34,13 +35,19 @@ jobs:
           echo "下载软件app">> release.txt
           cd build
           Get-FileHash *.exe,*.7z -Algorithm MD5 | Format-List
-
+      - name: commit
+        run: |
+             git config --local user.email "tset@qq.com"
+             git config --local user.name "test"
+             git pull
+             git add version.txt
+             git commit -m "update $(date +'%Y-%m-%d %H:%M:%S')"
       - name: 发布到release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "1.1.1"
+          tag_name: ${{ env.version }}
           body_path: release.txt
           files: ./build/*.exe
 
