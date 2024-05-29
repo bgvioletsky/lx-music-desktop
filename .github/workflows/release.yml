@@ -74,7 +74,7 @@ jobs:
       - name: Build src code
         run: |
           echo "下载软件app">> release.txt
-          echo "version=$(bash ./.github/workflows/version.sh)" >> $GITHUB_ENV
+          echo "version=$(bash ./version.sh)" >> $GITHUB_ENV
           git status --porcelain
           npm run pack:mac
 
