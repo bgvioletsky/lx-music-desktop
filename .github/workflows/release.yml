@@ -25,7 +25,7 @@ jobs:
 
       - name: Build src code
         run: |
-          echo "version=$(bash ./github/workflows/version.sh)" >> $GITHUB_ENV
+          echo "version=$(bash ./.github/workflows/version.sh)" >> $GITHUB_ENV
           git status --porcelain
           npm run pack:win
 
