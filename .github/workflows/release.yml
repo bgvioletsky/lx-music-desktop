@@ -44,6 +44,11 @@ jobs:
              git pull
              git add version.txt
              git commit -m "update $(date +'%Y-%m-%d %H:%M:%S')"
+      - name:  Push changes
+        uses:  ad-m/github-push-action@master
+        with:  
+          branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: 发布到release
         uses: softprops/action-gh-release@v1
         env:
