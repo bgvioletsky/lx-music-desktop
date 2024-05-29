@@ -13,15 +13,15 @@ jobs:
   Windows:
     name: Windows
     runs-on: windows-latest
-    env:
-      NPM_CACHE: '%APPDATA%\npm-cache'
+    # env:
+    #   NPM_CACHE: '%APPDATA%\npm-cache'
     # needs: CheckCode
     steps:
       - name: Check out git repository
         uses: actions/checkout@v4
 
-      - name: Setup Node Env
-        uses: ./.github/actions/setup
+      # - name: Setup Node Env
+      #   uses: ./.github/actions/setup
         
       - name: 设置变量
         id: compile
