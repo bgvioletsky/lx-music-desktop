@@ -5,8 +5,7 @@ on:
   #   branches:
   #     - master
   workflow_dispatch:
-env:
-  IS_CI: 'true'
+
 
 jobs:
   
