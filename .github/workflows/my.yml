@@ -64,7 +64,7 @@ jobs:
     name: Linux
     runs-on: ubuntu-latest
     env:
-      NPM_CACHE: $HOME/.npm
+      NPM_CACHE: '%APPDATA%\npm-cache'
     # needs: CheckCode
     steps:
       - name: Install package
