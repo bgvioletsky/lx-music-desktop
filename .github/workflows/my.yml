@@ -32,12 +32,14 @@ jobs:
 
       # - name: Install dependencies
       #   run: ｜
-      #     echo "下载软件app">> release.txt
+         
       #     echo "version=$(bash version.sh)" >> $GITHUB_ENV
 
       - name: Generate file MD5
         run: |
+          echo "下载软件app">> release.txt
           cd build
+
           Get-FileHash *.exe,*.7z -Algorithm MD5 | Format-List
       # - name: commit
       #   run: |
