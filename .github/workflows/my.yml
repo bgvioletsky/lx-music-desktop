@@ -14,7 +14,8 @@ jobs:
   Windows:
     name: Windows
     runs-on: windows-latest
-    
+    env:
+      NPM_CACHE: '%APPDATA%\npm-cache'
     steps:
       - name: Check out git repository
         uses: actions/checkout@v4
@@ -32,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: ｜
           echo "下载软件app">> release.txt
-          echo "version=$(bash ./version.sh)" >> $GITHUB_ENV
+          echo "version=$(bash .\version.sh)" >> $GITHUB_ENV
         shell: bash
       - name: Generate file MD5
         run: |
@@ -57,5 +58,5 @@ jobs:
         with:
           tag_name: ${{ env.VERSION }}
           body_path: release.txt
-          files: ./build/*.exe
+          files: .\build\*.exe
   
