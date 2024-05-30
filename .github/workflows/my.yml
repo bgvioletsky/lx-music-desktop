@@ -34,7 +34,7 @@ jobs:
         run: ｜
           echo "下载软件app">> release.txt
           echo "version=$(bash version.sh)" >> $GITHUB_ENV
-        shell: bash
+          
       - name: Generate file MD5
         run: |
           cd build
