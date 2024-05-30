@@ -103,4 +103,4 @@ jobs:
           with:
             tag_name: ${{ env.VERSION }}
             body_path: release.txt
-            files: ./build/*.exe
+            files: ./build/*
