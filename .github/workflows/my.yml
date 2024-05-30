@@ -6,99 +6,57 @@ on:
   schedule:
     - cron: 0 17 * * 5
   workflow_dispatch:
-  
+
 env:
   IS_CI: 'true'
 jobs:
   
-  # Windows:
-  #   name: Windows
-  #   runs-on: windows-latest
-  #   env:
-  #     NPM_CACHE: '%APPDATA%\npm-cache'
-  #   steps:
-  #     - name: Check out git repository
-  #       uses: actions/checkout@v4
-
-  #     - name: Setup Node Env
-  #       uses: ./.github/actions/setup
-
-
-  
-  #     - name: Build src code
-  #       run: |
-  #         git status --porcelain
-  #         npm run pack:win
-
-  #     - name: Set version
-  #       shell: pwsh
-  #       run: echo "version=$(.\version.sh)" >> $env:GITHUB_ENV
-
-  #     - name: Generate file MD5
-  #       run: |
-  #         echo "下载软件app">> release.txt
-  #         cd build
-
-  #         Get-FileHash *.exe,*.7z -Algorithm MD5 | Format-List
-  #     - name: commit
-  #       run: |
-  #            git config --local user.email "tset@qq.com"
-  #            git config --local user.name "test"
-  #            git pull
-  #            git add version.txt
-  #            git commit -m "update $(date +'%Y-%m-%d %H:%M:%S')"
-  #     - name:  Push changes
-  #       uses:  ad-m/github-push-action@master
-  #       with:  
-  #         branch: master
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #     - name: 发布到release
-  #       uses: softprops/action-gh-release@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         tag_name: ${{ env.VERSION}}
-  #         body_path: release.txt
-  #         files: ./build/*.exe
-  myapp:
-    name: myapp
-    runs-on: ubuntu-latest
+  Windows:
+    name: Windows
+    runs-on: windows-latest
+    env:
+      NPM_CACHE: '%APPDATA%\npm-cache'
     steps:
-      - name: Install package
-        run: sudo apt-get update && sudo apt-get install -y rpm libarchive-tools
-
       - name: Check out git repository
         uses: actions/checkout@v4
 
       - name: Setup Node Env
         uses: ./.github/actions/setup
 
-      - name: Build src code
-        run: |
-          # git status --porcelain
-          npm run pack:win
+      # - name: Build src code
+      #   run: |
+      #     git status --porcelain
+      #     npm run pack:win
 
-      - name: Release package
+      - name: Set version
         run: |
-          echo "version=$(./version.sh)" >> $env:GITHUB_ENV
-          echo "下载软件app">> release.txt
-          git config --local user.email "tset@qq.com"
-          git config --local user.name "test"
-          git pull
-          git add version.txt
-          git commit -m "update $(date +'%Y-%m-%d %H:%M:%S')"
-        
+          echo "version=$(bash ./version.sh)" >> $GITHUB_ENV
 
-      - name:  Push changes
-        uses:  ad-m/github-push-action@master
-        with:  
-           branch: master
-           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: 发布到release
-        uses: softprops/action-gh-release@v1
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.VERSION}}
-          body_path: release.txt
-          files: ./build/*.exe
+      # - name: Generate file MD5
+      #   run: |
+      #     echo "下载软件app" >> release.txt
+      #     ls build
+      #     Get-FileHash build/*.exe,build/*.7z -Algorithm MD5 | Format-List
+
+      # - name: commit
+      #   run: |
+      #     git config --local user.email "test@example.com"
+      #     git config --local user.name "test"
+      #     git pull origin master
+      #     git add release.txt
+      #     git commit -m "Update version.txt"
+          
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:  
+      #     branch: master
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+          
+      # - name: 发布到release
+      #   uses: softprops/action-gh-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ env.VERSION }}
+      #     body_path: release.txt
+      #     files: ./build/*.exe

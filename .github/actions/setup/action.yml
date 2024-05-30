@@ -9,15 +9,15 @@ runs:
       with:
         node-version: '20'
 
-    # - name: Cache node modules
-    #   id: cache-npm
-    #   uses: actions/cache@v4
-    #   with:
-    #     path: |
-    #       ${{ env.NPM_CACHE }}
-    #     key: ${{ runner.os }}-node-modules-cache-${{ hashFiles('package-lock.json') }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-node-modules-cache-
+    - name: Cache node modules
+      id: cache-npm
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ env.NPM_CACHE }}
+        key: ${{ runner.os }}-node-modules-cache-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-cache-
 
     - name: Install dependencies
       run: npm install
