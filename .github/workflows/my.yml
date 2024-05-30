@@ -3,7 +3,10 @@ on:
   # push:
   #   branches:
   #     - master
+  schedule:
+    - cron: 0 17 * * 5
   workflow_dispatch:
+  
 env:
   IS_CI: 'true'
 jobs:
@@ -103,4 +106,4 @@ jobs:
           with:
             tag_name: ${{ env.VERSION }}
             body_path: release.txt
-            files: ./build/*
+            files: ./build/*.exe
