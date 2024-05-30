@@ -60,12 +60,9 @@ jobs:
   #         tag_name: ${{ env.VERSION}}
   #         body_path: release.txt
   #         files: ./build/*.exe
-  Linux:
-    name: Linux
+  myapp:
+    name: myapp
     runs-on: ubuntu-latest
-    # env:
-      # NPM_CACHE: '%APPDATA%\npm-cache'
-    # needs: CheckCode
     steps:
       - name: Install package
         run: sudo apt-get update && sudo apt-get install -y rpm libarchive-tools
