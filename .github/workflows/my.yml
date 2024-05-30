@@ -31,7 +31,10 @@ jobs:
       - name: Set version
         run: |
           echo "version=$(bash ./version.sh)" >> $GITHUB_ENV
-
+      - name: show version
+        run: |
+          echo "version=${{ env.version }}"
+      
       # - name: Generate file MD5
       #   run: |
       #     echo "下载软件app" >> release.txt
