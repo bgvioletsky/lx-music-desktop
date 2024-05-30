@@ -1,4 +1,4 @@
-name: Build
+name: test
 on:
   # push:
   #   branches:
@@ -38,6 +38,13 @@ jobs:
               fi
               echo "${versionArray[0]}.${versionArray[1]}.${versionArray[2]}" > version.txt
               echo "version=$(cat version.txt)" >> $GITHUB_ENV
+          - name: Commit version.txt
+            run: |
+                git config --local user.email "your_email@example.com"
+                git config --local user.name "Your Name"
+                git add version.txt
+                git commit -m "Update version.txt"
+                git push
           - name: show version
             run: |
               echo "version=${{ env.version }}"
