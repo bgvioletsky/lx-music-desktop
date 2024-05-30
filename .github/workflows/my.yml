@@ -63,8 +63,8 @@ jobs:
   Linux:
     name: Linux
     runs-on: ubuntu-latest
-    env:
-      NPM_CACHE: '%APPDATA%\npm-cache'
+    # env:
+      # NPM_CACHE: '%APPDATA%\npm-cache'
     # needs: CheckCode
     steps:
       - name: Install package
@@ -78,8 +78,8 @@ jobs:
 
       - name: Build src code
         run: |
-          git status --porcelain
-          npm run pack:liunx
+          # git status --porcelain
+          npm run pack:win
 
       - name: Release package
         run: |
