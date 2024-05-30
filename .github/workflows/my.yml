@@ -58,5 +58,5 @@ jobs:
         with:
           tag_name: "0.0.1"
           body_path: release.txt
-          files: build\*.exe
+          files: ./build/*.exe
   
