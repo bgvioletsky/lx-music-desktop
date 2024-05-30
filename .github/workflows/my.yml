@@ -79,7 +79,7 @@ jobs:
       - name: Build src code
         run: |
           git status --porcelain
-          npm run pack:win
+          npm run pack:liunx
 
       - name: Release package
         run: |
