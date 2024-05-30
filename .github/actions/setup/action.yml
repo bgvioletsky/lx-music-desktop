@@ -20,5 +20,5 @@ runs:
     #       ${{ runner.os }}-node-modules-cache-
 
     - name: Install dependencies
-      run: npm ci
+      run: npm install
       shell: bash
