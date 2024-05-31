@@ -22,7 +22,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
           echo $runs
-          # 计算要保留的工作流程运行ID
+        #   计算要保留的工作流程运行ID
         #   keep_runs=$(echo "$runs" | head -n 3)
 
           # 删除不在保留列表中的工作流程运行
