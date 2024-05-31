@@ -21,7 +21,7 @@ jobs:
           - name: Set version
             shell: pwsh
             run: |
-              newVersion=$(.\version.sh)
+              $newVersion = .\version.sh
               echo "version=$newVersion" >> $env:GITHUB_ENV
 
           - name: show version
