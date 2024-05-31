@@ -18,6 +18,11 @@ jobs:
           - name: Check out git repository
             uses: actions/checkout@v4
     
+          - name: Set version
+            shell: pwsh
+            run: |
+              newVersion=$(.\version.sh)
+              echo "version=$newVersion" >> $env:GITHUB_ENV
 
           - name: show version
             run: |
