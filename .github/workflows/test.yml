@@ -12,13 +12,10 @@ on:
           required: true
           default: 0.0.1
         platform:
-          description: '平台类型'
+          description: '是否手动输入版本号'
           required: true
-          default: 'Linux'
-        build_type:
-          description: '构建类型'
-          required: false
-          default: 'Release'
+          default: 'false'
+        
     
 env:
     IS_CI: 'true'
