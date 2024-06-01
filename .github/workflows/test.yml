@@ -27,7 +27,10 @@ on:
               description: 'Test scenario tags'
               required: true
               type: string
-
+        environment1:
+          description: 'Environment to run tests against'
+          type: environment
+          required: true
     
 env:
     IS_CI: 'true'
@@ -47,7 +50,7 @@ jobs:
               echo "version=${{ inputs.version }}" >> $env:GITHUB_ENV
 
           - name: Set version
-            if: ${{ inputs.environment == 'false' }}
+            if: ${{ github.event.inputs.environment == 'false' }}
             shell: pwsh
             run: |
               $versionFile = "version.txt"
@@ -72,7 +75,6 @@ jobs:
           - name: show version
             run: |
               echo "version=${{ env.version }}"
-              echo "version=${{ inputs. print_tags }}"
 
              
               
