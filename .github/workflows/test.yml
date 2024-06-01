@@ -11,6 +11,11 @@ on:
           description: '版本号'
           required: false
           default: 0.0.1
+          type: choice
+          options:
+            - info
+            - warning
+            - debug
         platform:
           description: '是否手动输入版本号'
           required: false
