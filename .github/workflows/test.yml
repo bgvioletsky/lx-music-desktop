@@ -32,13 +32,34 @@ jobs:
         steps:
           - name: Check out git repository
             uses: actions/checkout@v4
-    
+
+          - name: 手动版本号
+            if: ${{ github.event.inputs.environment == 'true' }}
+            run: |
+              echo "version=${{ github.event.inputs.version }}" >> $env:GITHUB_ENV
+
           - name: Set version
+            if: ${{ github.event.inputs.environment == 'false' }}
             shell: pwsh
             run: |
-              $newVersion = .\version.sh
-              echo "version=${{ github.event.inputs.environment }}" >> $env:GITHUB_ENV
-              # echo "version=$newVersion" >> $env:GITHUB_ENV
+              $versionFile = "version.txt"
+              if (-not (Test-Path $versionFile)) {
+                  Set-Content -Path $versionFile -Value "0.0.0"
+              }
+              $version = Get-Content -Path $versionFile
+              $versionArray = $version.Split('.')
+              $versionArray[2] = [int]$versionArray[2] + 1
+              if ($versionArray[2] -eq 20) {
+                  $versionArray[2] = 0
+                  $versionArray[1] = [int]$versionArray[1] + 1
+                  if ($versionArray[1] -eq 20) {
+                      $versionArray[1] = 0
+                      $versionArray[0] = [int]$versionArray[0] + 1
+                  }
+              }
+              $newVersion = $versionArray -join '.'
+              Set-Content -Path $versionFile -Value $newVersion
+              echo "version=$newVersion" >> $env:GITHUB_ENV
 
           - name: show version
             run: |
