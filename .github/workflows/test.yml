@@ -45,12 +45,12 @@ jobs:
             uses: actions/checkout@v4
 
           - name: 手动版本号
-            if: ${{ github.event.inputs.environment == 'true' }}
+            if: ${{ inputs.environment == 'true' }}
             run: |
-              echo "version=${{ github.event.inputs.version }}" >> $env:GITHUB_ENV
+              echo "version=${{ inputs.version }}" >> $env:GITHUB_ENV
 
           - name: Set version
-            if: ${{ github.event.inputs.environment == 'false' }}
+            if: ${{ inputs.environment == 'false' }}
             shell: pwsh
             run: |
               $versionFile = "version.txt"
@@ -75,6 +75,7 @@ jobs:
           - name: show version
             run: |
               echo "version=${{ env.version }}"
+              echo "version=${{ inputs. print_tags }}"
 
              
               

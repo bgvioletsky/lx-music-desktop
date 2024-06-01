@@ -23,6 +23,15 @@ on:
           description: '发布页详情'
           required: false
           default: '发布文件'
+          type: string
+        release:
+          description: '发布到release'
+          required: true
+          type: boolean
+        artifact:
+          description: '发布到artifact'
+          required: false
+          type: boolean
         
     
 env:
@@ -76,7 +85,7 @@ jobs:
             git add version.txt
             git commit -m "Update version.txt"
             git push
-            
+
       - name: 编译源码
         run: |
           git status --porcelain
