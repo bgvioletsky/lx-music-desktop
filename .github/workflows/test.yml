@@ -6,11 +6,20 @@ on:
   schedule:
     - cron: 0 17 * * 5
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to deploy to'
-        required: true
-        default: $(date "+%Y-%m-%d")
+      inputs:
+        environment:
+          description: '版本号'
+          required: true
+          default: 0.0.1
+        platform:
+          description: '平台类型'
+          required: true
+          default: 'Linux'
+        build_type:
+          description: '构建类型'
+          required: false
+          default: 'Release'
+    
 env:
     IS_CI: 'true'
 jobs:
