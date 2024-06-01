@@ -19,7 +19,18 @@ on:
           description: '版本号'
           required: false
           default: 0.0.1
-        
+        print_tags:
+            description: 'True to print to STDOUT'
+            required: true
+            type: boolean
+        tags:
+              description: 'Test scenario tags'
+              required: true
+              type: string
+        environment1:
+          description: 'Environment to run tests against'
+          type: environment
+          required: true
     
 env:
     IS_CI: 'true'
