@@ -27,10 +27,12 @@ on:
         release:
           description: '发布到release'
           required: true
+          default: true
           type: boolean
         artifact:
           description: '发布到artifact'
           required: false
+          default: false
           type: boolean
         
     
@@ -89,7 +91,7 @@ jobs:
       - name: 编译源码
         run: |
           git status --porcelain
-          npm run pack:win
+          npm run pack
 
       
       - name: 发布页消息
@@ -98,6 +100,7 @@ jobs:
 
           
       - name: 发布到release
+        if: ${{ github.event.inputs.artifact=='true' }}
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -105,3 +108,11 @@ jobs:
           tag_name: ${{ env.version }}
           body_path: release.txt
           files: ./build/*.exe
+
+      - name: 发布到artifact
+        if: ${{ github.event.inputs.artifact=='true' }}
+        uses: actions/upload-artifact@main
+        with:
+          path: ./build/*.exe
+          name: "软件包"
+          
