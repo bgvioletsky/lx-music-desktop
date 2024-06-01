@@ -8,18 +8,17 @@ on:
   workflow_dispatch:
       inputs:
         environment:
+          description: '是否手动输入版本号'
+          required: true
+          default: 'false'
+          type: choice
+          options:
+            - true
+            - false 
+        version:
           description: '版本号'
           required: false
           default: 0.0.1
-          type: choice
-          options:
-            - info
-            - warning
-            - debug
-        platform:
-          description: '是否手动输入版本号'
-          required: false
-          default: 'false'
         
     
 env:
