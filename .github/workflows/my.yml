@@ -41,7 +41,7 @@ env:
 jobs:
   
   Windows:
-    name: Windows
+    name: 在windows上打包
     runs-on: windows-latest
     env:
       NPM_CACHE: '%APPDATA%\npm-cache'
