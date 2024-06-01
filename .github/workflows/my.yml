@@ -114,5 +114,5 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           path: ./build/*.exe
-          name: "软件包"
+          name: "lx-music.exe"
           
