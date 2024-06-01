@@ -9,11 +9,11 @@ on:
       inputs:
         environment:
           description: '版本号'
-          required: true
+          required: false
           default: 0.0.1
         platform:
           description: '是否手动输入版本号'
-          required: true
+          required: false
           default: 'false'
         
     
