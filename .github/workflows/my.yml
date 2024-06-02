@@ -60,7 +60,7 @@ jobs:
       - name: 自动版本号
         if: ${{ github.event.inputs.environment == 'false' }}
         run: |
-            $versionFile = "version.txt"
+            $versionFile = "win_version.txt"
             if (-not (Test-Path $versionFile)) {
                 Set-Content -Path $versionFile -Value "0.0.0"
             }
@@ -77,14 +77,14 @@ jobs:
             }
             $newVersion = $versionArray -join '.'
             Set-Content -Path $versionFile -Value $newVersion
-            echo "version=$newVersion" >> $env:GITHUB_ENV
+            echo "version=win_v$newVersion" >> $env:GITHUB_ENV
           
       - name: 提交版本号
         if: ${{ github.event.inputs.environment == 'false' }}
         run: |
             git config --local user.email "your_email@example.com"
             git config --local user.name "Your Name"
-            git add version.txt
+            git add win_version.txt
             git commit -m "Update version.txt"
             git push
 
@@ -100,7 +100,7 @@ jobs:
 
           
       - name: 发布到release
-        if: ${{ github.event.inputs.artifact=='true' }}
+        if: ${{ github.event.inputs.release=='true' }}
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -140,9 +140,9 @@ jobs:
         if: ${{ github.event.inputs.environment == 'false' }}
         run: |
            if [ ! -f version.txt ]; then
-               echo "0.0.0" > version.txt
+               echo "0.0.0" > mac_version.txt
            fi
-           VERSION=$(cat version.txt)
+           VERSION=$(cat mac_version.txt)
            IFS='.' read -r -a versionArray <<< "$VERSION"
            ((versionArray[2]++))
            
@@ -159,19 +159,19 @@ jobs:
            fi
            
            # 将新版本号写回到version.txt文件中
-           echo "${versionArray[0]}.${versionArray[1]}.${versionArray[2]}" > version.txt
+           echo "${versionArray[0]}.${versionArray[1]}.${versionArray[2]}" > mac_version.txt
            
            # 打印新版本号
-           echo "v${versionArray[0]}.${versionArray[1]}.${versionArray[2]}"
+           echo "version=mac_v${versionArray[0]}.${versionArray[1]}.${versionArray[2]}" >> $env:GITHUB_ENV
          
-      # - name: 提交版本号
-      #   if: ${{ github.event.inputs.environment == 'false' }}
-      #   run: |
-      #        git config --local user.email "your_email@example.com"
-      #        git config --local user.name "Your Name"
-      #        git add version.txt
-      #        git commit -m "Update version.txt"
-      #        git push
+      - name: 提交版本号
+        if: ${{ github.event.inputs.environment == 'false' }}
+        run: |
+             git config --local user.email "your_email@example.com"
+             git config --local user.name "Your Name"
+             git add mac_version.txt
+             git commit -m "Update version.txt"
+             git push
    
       - name: 编译源码
         run: |
@@ -183,7 +183,7 @@ jobs:
 
          
       - name: 发布到release
-        if: ${{ github.event.inputs.artifact=='true' }}
+        if: ${{ github.event.inputs.release=='true' }}
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
