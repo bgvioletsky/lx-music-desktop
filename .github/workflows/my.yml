@@ -46,6 +46,11 @@ on:
           required: false
           default: false
           type: boolean
+        keeps:
+          description: '启动删除'
+          required: true
+          default: true
+          type: boolean
         keep:
           description: '是否保留旧版本'
           required: true
@@ -123,21 +128,7 @@ jobs:
         with:
           path: ./build/*.exe
           name: "win-lx-music"
-      - name: 删除多余的流
-        run: |
-            $current_run_id=($env:GITHUB_RUN_ID)
-            $runs=(curl -s -X GET "https://api.github.com/repos/${env:GITHUB_REPOSITORY}/actions/workflows/${env:GITHUB_WORKFLOW}/runs" `
-              -H "Authorization: Bearer ${env:GITHUB_TOKEN}" `
-              -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
-            echo "$runs"
-            $keep_runs=($runs | Select-Object -First${{ github.event.inputs.keep }})
-            foreach ($run_id in $runs) {
-              if ($run_id -ne $current_run_id -and $keep_runs -notcontains $run_id) {
-                curl -s -X DELETE "https://api.github.com/repos/${env:GITHUB_REPOSITORY}/actions/runs/$run_id" `
-                  -H "Authorization: Bearer ${env:GITHUB_TOKEN}" `
-                  -H "Accept: application/vnd.github.v3+json" > $null
-              }
-            }
+    
         
       - name: 提交版本号
         if: ${{ github.event.inputs.choice == 'false' }}
@@ -232,18 +223,26 @@ jobs:
                git add mac_version.txt
                git commit -m "Update version.txt"
                git push
+     
+  liunx:
+    name: linux删除
+    if: ${{ github.event.inputs.keeps == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检查环境
+        uses: actions/checkout@v4
       - name: 删除多余的流
         run: |
-                 current_run_id=$(echo "$GITHUB_RUN_ID")
-                 runs=$(curl -s -X GET "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$GITHUB_WORKFLOW/runs" \
-                   -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                   -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
-                 echo "$runs"
-                 keep_runs=$(echo "$runs" | head -n ${{ inputs.keep }})
-                 for run_id in $runs; do
-                   if [ "$run_id" != "$current_run_id" ] && [[ ! "$keep_runs" =~ "$run_id" ]]; then
-                     curl -s -X DELETE "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id" \
-                       -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                       -H "Accept: application/vnd.github.v3+json" > /dev/null
-                   fi
-                 done
+          current_run_id=$(echo "$GITHUB_RUN_ID")
+          runs=$(curl -s -X GET "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$GITHUB_WORKFLOW/runs" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
+          echo "$runs"
+          keep_runs=$(echo "$runs" | head -n ${{ inputs.keep }})
+          for run_id in $runs; do
+            if [ "$run_id" != "$current_run_id" ] && [[ ! "$keep_runs" =~ "$run_id" ]]; then
+              curl -s -X DELETE "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id" \
+                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Accept: application/vnd.github.v3+json" > /dev/null
+            fi
+          done
