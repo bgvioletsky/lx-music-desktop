@@ -20,6 +20,6 @@ jobs:
         uses: ./.github/actions/clean
         with:
           keep: ${{ github.event.inputs.keep }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
