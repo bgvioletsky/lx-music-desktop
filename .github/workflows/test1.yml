@@ -16,7 +16,7 @@ jobs:
         run: |
           # 获取当前工作流程运行的ID
           current_run_id=$(echo "$GITHUB_RUN_ID")
-          echo "current_run_id"
+          echo "$current_run_id"
           # 获取当前仓库的工作流程运行列表
     
             #   runs=$(curl -s -X GET "https://api.github.com/repos/${{ github.repository }}/actions/workflows/my.yml/runs" \
