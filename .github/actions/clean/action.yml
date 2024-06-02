@@ -2,7 +2,7 @@ name: Clean Workflow Runs
 description: A GitHub Action to clean up old workflow runs
 
 runs:
-  using: 'ubuntu-latest'
+  using: composite
   steps:
     - name: Clean
       shell: bash
