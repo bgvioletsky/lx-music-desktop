@@ -24,8 +24,8 @@ on:
           default: true
           type: boolean
         liunx:
-          description: 'windows编译'
-          default: true
+          description: 'liunx编译'
+          default: false
           type: boolean
         version:
           description: '版本号'
