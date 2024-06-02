@@ -105,7 +105,7 @@ jobs:
       - name: 编译源码
         run: |
           git status --porcelain
-          npm run pack
+          npm run pack:win
 
       
       - name: 发布页消息
@@ -128,7 +128,7 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           path: ./build/*.exe
-          name: "lx-music.exe"
+          name: "lx-music"
   Mac:
     name: mac打包
     if: ${{ github.event.inputs.mac == 'true' }}
@@ -211,4 +211,4 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           path: ./build/*.dmg
-          name: "lx-music.dmg"
+          name: "lx-music"
