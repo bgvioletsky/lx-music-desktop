@@ -161,7 +161,7 @@ jobs:
            echo "${versionArray[0]}.${versionArray[1]}.${versionArray[2]}" > mac_version.txt
            vss=$(cat mac_version.txt)
            # 打印新版本号
-           echo "version=mac_v${vss}" >> $env:GITHUB_ENV
+           echo "version=mac_v${vss}" >> $GITHUB_ENV
          
       - name: 提交版本号
         if: ${{ github.event.inputs.environment == 'false' }}
