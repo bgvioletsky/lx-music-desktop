@@ -54,7 +54,7 @@ jobs:
   
   Windows:
     name: windows打包
-    if: ${{ github.event.inputs.environment == 'windows' }}
+    if: ${{ github.event.inputs.windows == 'windows' }}
     runs-on: windows-latest
     env:
       NPM_CACHE: '%APPDATA%\npm-cache'
@@ -131,7 +131,7 @@ jobs:
           name: "lx-music.exe"
   Mac:
     name: mac打包
-    if: ${{ github.event.inputs.environment == 'mac' }}
+    if: ${{ github.event.inputs.mac == 'true' }}
     runs-on: macos-latest
     env:
       NPM_CACHE: $HOME/.npm
