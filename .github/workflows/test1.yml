@@ -21,6 +21,6 @@ jobs:
         with:
             keep: ${{ github.event.inputs.keep }}
         env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
