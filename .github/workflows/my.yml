@@ -139,7 +139,7 @@ jobs:
       - name: 自动版本号
         if: ${{ github.event.inputs.environment == 'false' }}
         run: |
-           if [ ! -f version.txt ]; then
+           if [ ! -f  mac_version.txt ]; then
                echo "0.0.0" > mac_version.txt
            fi
            VERSION=$(cat mac_version.txt)
