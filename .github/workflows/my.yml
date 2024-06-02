@@ -23,6 +23,7 @@ on:
           options:
             - windows
             - mac 
+            - linux
         version:
           description: '版本号'
           required: false
