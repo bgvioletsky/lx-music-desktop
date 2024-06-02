@@ -132,12 +132,12 @@ jobs:
         with:
           path: ./build/*.exe
           name: "win-lx-music"
-      - name: 删除多余的流
-        uses: ./.github/actions/clean
-        with:
-          keep: ${{ github.event.inputs.keep }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: 删除多余的流
+      #   uses: ./.github/actions/clean
+      #   with:
+      #     keep: ${{ github.event.inputs.keep }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Mac:
     name: mac打包
     if: ${{ github.event.inputs.mac == 'true' }}
