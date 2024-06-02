@@ -1,22 +1,31 @@
-name: Clean
-description: 清除多余的流
+name: Clean Workflow Runs
+description: A GitHub Action to clean up old workflow runs
+
+inputs:
+  keep:
+    description: 'Number of workflow runs to keep'
+    required: true
+    default: 1
+  GITHUB_TOKEN: 
+    description: 'Number of workflow runs to keep'
+    required: true
 
 runs:
-  using: ubuntu-latest
+  using: 'ubuntu-latest'
   steps:
-    - name: Cache node modules
+    - name: Clean
       shell: bash
       run: |
-          current_run_id=$(echo "$GITHUB_RUN_ID")
-          runs=$(curl -s -X GET "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$GITHUB_WORKFLOW/runs" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
-          echo "$runs"
-          keep_runs=$(echo "$runs" | head -n ${{ github.event.inputs.keep }})
-          for run_id in $runs; do
-            if [ "$run_id" != "$current_run_id" ] && [[ ! "$keep_runs" =~ "$run_id" ]]; then
-              curl -s -X DELETE "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id" \
-                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github.v3+json" > /dev/null
-            fi
-          done
+        current_run_id=$(echo "$GITHUB_RUN_ID")
+        runs=$(curl -s -X GET "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$GITHUB_WORKFLOW/runs" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
+        echo "$runs"
+        keep_runs=$(echo "$runs" | head -n ${{ github.event.inputs.keep }})
+        for run_id in $runs; do
+          if [ "$run_id" != "$current_run_id" ] && [[ ! "$keep_runs" =~ "$run_id" ]]; then
+            curl -s -X DELETE "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id" \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" > /dev/null
+          fi
+        done
