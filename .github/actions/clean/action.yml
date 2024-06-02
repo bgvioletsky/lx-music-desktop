@@ -1,19 +1,12 @@
-name: Limit Recent Workflow Runs
+name: Clean
+description: 清除多余的流
 
-on:
-#   push:
-#     branches:
-#       - main
-  workflow_dispatch:
-
-jobs:
-  cleanup_old_runs:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 删除多余的流
-        id: cleanup
-        run: |
+runs:
+  using: composite
+  steps:
+    - name: Cache node modules
+      uses: actions/checkout@v4
+      run: |
           # 获取当前工作流程运行的ID
           current_run_id=$(echo "$GITHUB_RUN_ID")
 
@@ -34,10 +27,4 @@ jobs:
                     -H "Accept: application/vnd.github.v3+json" > /dev/null
                 fi
               done
-
-          # 输出保留的工作流程运行ID，用于调试目的
-          echo "Kept workflow runs: $keep_runs"
-
-      - name: Output kept runs (for debugging)
-        run: |
-             echo "Kept workflow runs: ${{ steps.cleanup.outputs.keep_runs }}"
+     

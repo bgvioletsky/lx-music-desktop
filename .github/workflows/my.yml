@@ -46,7 +46,10 @@ on:
           required: false
           default: false
           type: boolean
-        
+        keep:
+          description: '是否保留旧版本'
+          required: true
+          default: 5
     
 env:
   IS_CI: 'true'
@@ -129,6 +132,8 @@ jobs:
         with:
           path: ./build/*.exe
           name: "win-lx-music"
+      - name: 删除多余的流
+        uses: ./.github/actions/clean
   Mac:
     name: mac打包
     if: ${{ github.event.inputs.mac == 'true' }}
