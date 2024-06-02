@@ -148,7 +148,7 @@ jobs:
       - name: 手动版本号
         if: ${{ github.event.inputs.choice == 'true' }}
         run: |
-          echo "version=${{ inputs.version }}" >> $env:GITHUB_ENV
+          echo "version=${{ inputs.version }}" >> $GITHUB_ENV
       - name: 自动版本号
         if: ${{ github.event.inputs.choice == 'false' }}
         run: |
