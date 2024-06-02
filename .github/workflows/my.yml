@@ -7,7 +7,7 @@ on:
   #   - cron: 0 17 * * 5
   workflow_dispatch:
       inputs:
-        environment:
+        choice:
           description: '是否手动输入版本号'
           required: true
           default: 'false'
@@ -15,6 +15,14 @@ on:
           options:
             - true
             - false 
+        environment:
+          description: '是否手动输入版本号'
+          required: true
+          default: 'windows'
+          type: choice
+          options:
+            - windows
+            - mac 
         version:
           description: '版本号'
           required: false
@@ -42,6 +50,7 @@ jobs:
   
   Windows:
     name: windows打包
+    if: ${{ github.event.inputs.environment == 'windows' }}
     runs-on: windows-latest
     env:
       NPM_CACHE: '%APPDATA%\npm-cache'
@@ -53,12 +62,12 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: 手动版本号
-        if: ${{ github.event.inputs.environment == 'true' }}
+        if: ${{ github.event.inputs.choice == 'true' }}
         run: |
           echo "version=${{ inputs.version }}" >> $env:GITHUB_ENV
 
       - name: 自动版本号
-        if: ${{ github.event.inputs.environment == 'false' }}
+        if: ${{ github.event.inputs.choice == 'false' }}
         run: |
             $versionFile = "win_version.txt"
             if (-not (Test-Path $versionFile)) {
@@ -80,7 +89,7 @@ jobs:
             echo "version=win_v$newVersion" >> $env:GITHUB_ENV
           
       - name: 提交版本号
-        if: ${{ github.event.inputs.environment == 'false' }}
+        if: ${{ github.event.inputs.choice == 'false' }}
         run: |
             git config --local user.email "your_email@example.com"
             git config --local user.name "Your Name"
@@ -118,6 +127,7 @@ jobs:
           name: "lx-music.exe"
   Mac:
     name: mac打包
+    if: ${{ github.event.inputs.environment == 'mac' }}
     runs-on: macos-latest
     env:
       NPM_CACHE: $HOME/.npm
@@ -132,11 +142,11 @@ jobs:
           python3 -m venv ~/.venv
           source ~/.venv/bin/activate
       - name: 手动版本号
-        if: ${{ github.event.inputs.environment == 'true' }}
+        if: ${{ github.event.inputs.choice == 'true' }}
         run: |
           echo "version=${{ inputs.version }}" >> $env:GITHUB_ENV
       - name: 自动版本号
-        if: ${{ github.event.inputs.environment == 'false' }}
+        if: ${{ github.event.inputs.choice == 'false' }}
         run: |
            if [ ! -f  mac_version.txt ]; then
                echo "0.0.0" > mac_version.txt
@@ -164,7 +174,7 @@ jobs:
            echo "version=mac_v${vss}" >> $GITHUB_ENV
          
       - name: 提交版本号
-        if: ${{ github.event.inputs.environment == 'false' }}
+        if: ${{ github.event.inputs.choice == 'false' }}
         run: |
              git config --local user.email "your_email@example.com"
              git config --local user.name "Your Name"
