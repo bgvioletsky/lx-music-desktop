@@ -95,11 +95,11 @@ jobs:
       - name: 提交版本号
         if: ${{ github.event.inputs.choice == 'false' }}
         run: |
-            git config --local user.email "your_email@example.com"
-            git config --local user.name "Your Name"
+            git config --local user.email "ewew@example.com"
+            git config --local user.name "Your Namewe"
             git pull
             git add win_version.txt
-            git commit -m "Update version.txt"
+            git commit -m "Update vewersion.txt"
             git push
 
       - name: 编译源码
