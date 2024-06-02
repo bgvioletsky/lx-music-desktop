@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: 检查环境
+        uses: actions/checkout@v4
+
       - name: 删除多余的流
         uses: ./.github/actions/clean
         with:
