@@ -7,17 +7,17 @@ runs:
     - name: Clean
       shell: bash
       run: |
-          # echo "Keep value: ${{ inputs.keep }}"
-          current_run_id=$(echo "$GITHUB_RUN_ID")
-          runs=$(curl -s -X GET "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$GITHUB_WORKFLOW/runs" \
-            -H "Authorization: Bearer ${{ input.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
-          echo "$runs"
-          keep_runs=$(echo "$runs" | head -n ${{ inputs.keep }})
-          for run_id in $runs; do
-            if [ "$run_id" != "$current_run_id" ] && [[ ! "$keep_runs" =~ "$run_id" ]]; then
-              curl -s -X DELETE "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id" \
-                -H "Authorization: Bearer ${{ inputs.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github.v3+json" > /dev/null
-            fi
-          done
+          echo "sa: ${{ inputs.keep }}"
+          # current_run_id=$(echo "$GITHUB_RUN_ID")
+          # runs=$(curl -s -X GET "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$GITHUB_WORKFLOW/runs" \
+          #   -H "Authorization: Bearer ${{ input.GITHUB_TOKEN }}" \
+          #   -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
+          # echo "$runs"
+          # keep_runs=$(echo "$runs" | head -n ${{ inputs.keep }})
+          # for run_id in $runs; do
+          #   if [ "$run_id" != "$current_run_id" ] && [[ ! "$keep_runs" =~ "$run_id" ]]; then
+          #     curl -s -X DELETE "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id" \
+          #       -H "Authorization: Bearer ${{ inputs.GITHUB_TOKEN }}" \
+          #       -H "Accept: application/vnd.github.v3+json" > /dev/null
+          #   fi
+          # done
