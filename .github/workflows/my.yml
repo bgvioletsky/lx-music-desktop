@@ -95,15 +95,6 @@ jobs:
             Set-Content -Path $versionFile -Value $newVersion
             echo "version=win_v$newVersion" >> $env:GITHUB_ENV
           
-      - name: 提交版本号
-        if: ${{ github.event.inputs.choice == 'false' }}
-        run: |
-            git config --local user.email "ewew@example.com"
-            git config --local user.name "Your Namewe"
-            git pull
-            git add win_version.txt
-            git commit -m "Update vewersion.txt"
-            git push
 
       - name: 编译源码
         run: |
@@ -132,12 +123,32 @@ jobs:
         with:
           path: ./build/*.exe
           name: "win-lx-music"
-      # - name: 删除多余的流
-      #   uses: ./.github/actions/clean
-      #   with:
-      #     keep: ${{ github.event.inputs.keep }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 删除多余的流
+        run: |
+            $current_run_id=($env:GITHUB_RUN_ID)
+            $runs=(curl -s -X GET "https://api.github.com/repos/${env:GITHUB_REPOSITORY}/actions/workflows/${env:GITHUB_WORKFLOW}/runs" `
+              -H "Authorization: Bearer ${env:GITHUB_TOKEN}" `
+              -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
+            echo "$runs"
+            $keep_runs=($runs | Select-Object -First ${env:INPUTS_KEEP})
+            foreach ($run_id in $runs) {
+              if ($run_id -ne $current_run_id -and $keep_runs -notcontains $run_id) {
+                curl -s -X DELETE "https://api.github.com/repos/${env:GITHUB_REPOSITORY}/actions/runs/$run_id" `
+                  -H "Authorization: Bearer ${env:GITHUB_TOKEN}" `
+                  -H "Accept: application/vnd.github.v3+json" > $null
+              }
+            }
+        
+      - name: 提交版本号
+        if: ${{ github.event.inputs.choice == 'false' }}
+        run: |
+              git config --local user.email "ewew@example.com"
+              git config --local user.name "Your Namewe"
+              git pull
+              git add win_version.txt
+              git commit -m "Update vewersion.txt"
+              git push
+  
   Mac:
     name: mac打包
     if: ${{ github.event.inputs.mac == 'true' }}
@@ -186,16 +197,7 @@ jobs:
            # 打印新版本号
            echo "version=mac_v${vss}" >> $GITHUB_ENV
          
-      - name: 提交版本号
-        if: ${{ github.event.inputs.choice == 'false' }}
-        run: |
-             git config --local user.email "your_email@example.com"
-             git config --local user.name "Your Name"
-             git pull
-             git add mac_version.txt
-             git commit -m "Update version.txt"
-             git push
-   
+
       - name: 编译源码
         run: |
            git status --porcelain
@@ -221,3 +223,27 @@ jobs:
         with:
           path: ./build/*.dmg
           name: "mac-lx-music"
+      - name: 提交版本号
+        if: ${{ github.event.inputs.choice == 'false' }}
+        run: |
+               git config --local user.email "your_email@example.com"
+               git config --local user.name "Your Name"
+               git pull
+               git add mac_version.txt
+               git commit -m "Update version.txt"
+               git push
+      - name: 删除多余的流
+        run: |
+                 current_run_id=$(echo "$GITHUB_RUN_ID")
+                 runs=$(curl -s -X GET "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$GITHUB_WORKFLOW/runs" \
+                   -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                   -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
+                 echo "$runs"
+                 keep_runs=$(echo "$runs" | head -n ${{ inputs.keep }})
+                 for run_id in $runs; do
+                   if [ "$run_id" != "$current_run_id" ] && [[ ! "$keep_runs" =~ "$run_id" ]]; then
+                     curl -s -X DELETE "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id" \
+                       -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                       -H "Accept: application/vnd.github.v3+json" > /dev/null
+                   fi
+                 done
