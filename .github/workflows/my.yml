@@ -15,15 +15,18 @@ on:
           options:
             - true
             - false 
-        environment:
-          description: '是否手动输入版本号'
-          required: true
-          default: 'windows'
-          type: choice
-          options:
-            - windows
-            - mac 
-            - linux
+        mac:
+          description: 'mac编译'
+          default: false
+          type: boolean
+        windows:
+          description: 'windows编译'
+          default: true
+          type: boolean
+        liunx:
+          description: 'windows编译'
+          default: true
+          type: boolean
         version:
           description: '版本号'
           required: false
