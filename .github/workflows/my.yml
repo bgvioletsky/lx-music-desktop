@@ -131,8 +131,6 @@ jobs:
           mkdir ~/.venv
           python3 -m venv ~/.venv
           source ~/.venv/bin/activate
-          echo "version=$(bash version.sh)" >> $GITHUB_ENV
-          echo "下载软件app">> release.txt
       - name: 手动版本号
         if: ${{ github.event.inputs.environment == 'true' }}
         run: |
@@ -192,7 +190,7 @@ jobs:
         with:
           tag_name: ${{ env.version }}
           body_path: release.txt
-          files: ./build/*.exe
+          files: ./build/*.dmg
  
       - name: 发布到artifact
         if: ${{ github.event.inputs.artifact=='true' }}
