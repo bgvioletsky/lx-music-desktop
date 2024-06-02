@@ -54,7 +54,7 @@ jobs:
   
   Windows:
     name: windows打包
-    if: ${{ github.event.inputs.windows == 'windows' }}
+    if: ${{ github.event.inputs.windows == 'true' }}
     runs-on: windows-latest
     env:
       NPM_CACHE: '%APPDATA%\npm-cache'
