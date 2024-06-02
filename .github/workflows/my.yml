@@ -130,7 +130,7 @@ jobs:
               -H "Authorization: Bearer ${env:GITHUB_TOKEN}" `
               -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
             echo "$runs"
-            $keep_runs=($runs | Select-Object -First ${env:INPUTS_KEEP})
+            $keep_runs=($runs | Select-Object -First${{ github.event.inputs.keep }})
             foreach ($run_id in $runs) {
               if ($run_id -ne $current_run_id -and $keep_runs -notcontains $run_id) {
                 curl -s -X DELETE "https://api.github.com/repos/${env:GITHUB_REPOSITORY}/actions/runs/$run_id" `
