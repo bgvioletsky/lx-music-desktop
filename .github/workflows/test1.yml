@@ -16,11 +16,10 @@ jobs:
       - name: 检查环境
         uses: actions/checkout@v4
 
-      - name: 删除多余的流
+      - name: Clean
         uses: ./.github/actions/clean
         with:
-            keep: ${{ github.event.inputs.keep }}
-        env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          keep: ${{ github.event.inputs.keep }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
