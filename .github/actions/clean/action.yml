@@ -5,7 +5,7 @@ runs:
   using: composite
   steps:
     - name: Cache node modules
-      uses: actions/checkout@v4
+      shell: bash
       run: |
           # 获取当前工作流程运行的ID
           current_run_id=$(echo "$GITHUB_RUN_ID")

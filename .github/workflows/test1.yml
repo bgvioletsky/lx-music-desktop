@@ -1,9 +1,6 @@
 name: Limit Recent Workflow Runs
 
 on:
-#   push:
-#     branches:
-#       - main
   workflow_dispatch:
     inputs:
         keep:
@@ -17,32 +14,10 @@ jobs:
 
     steps:
       - name: 删除多余的流
-        id: cleanup
-        run: |
-          # 获取当前工作流程运行的ID
-          current_run_id=$(echo "$GITHUB_RUN_ID")
-          echo "当前工作流程文件名为 $GITHUB_WORKFLOW"
-          # 获取当前仓库的工作流程运行列表
-    
-          runs=$(curl -s -X GET "https://api.github.com/repos/${{ github.repository }}/actions/workflows/my.yml/runs" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" | jq -r '.workflow_runs[].id')
-          echo "$runs"
-              # 计算要保留的工作流程运行ID
-              keep_runs=$(echo "$runs" | head -n ${{github.event.inputs.keep}})
+        uses: ./.github/actions/clean
+        with:
+            keep: ${{ github.event.inputs.keep }}
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-              # 删除不在保留列表中的工作流程运行
-              for run_id in $runs; do
-                if [ "$run_id" != "$current_run_id" ] && [[ ! "$keep_runs" =~ "$run_id" ]]; then
-                  curl -s -X DELETE "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id" \
-                    -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                    -H "Accept: application/vnd.github.v3+json" > /dev/null
-                fi
-              done
 
-          # 输出保留的工作流程运行ID，用于调试目的
-          echo "Kept workflow runs: $keep_runs"
-
-      - name: Output kept runs (for debugging)
-        run: |
-             echo "Kept workflow runs: ${{ steps.cleanup.outputs.keep_runs }}"
