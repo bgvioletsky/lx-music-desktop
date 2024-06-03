@@ -49,7 +49,8 @@ on:
         keep:
           description: '是否保留旧版本'
           required: true
-          default: 5
+          default: 3
+          type: number
 env:
   IS_CI: 'true'
 jobs:
