@@ -27,7 +27,7 @@ jobs:
         url="https://tiku.fenbi.com/activity/userquiz/updateUserQuestionInfo?sheetType=151&questionCount=${{ github.event.inputs.number }}&yearScope=0&correctRatioLow=0&correctRatioHigh=1&app=web&kav=100&av=100&hav=100&version=3.0.0.0"
 
         cookie="${{ github.event.inputs.cookie }}"
-        response=$(curl -s -X POST -H "Content-Type: application/json" -H "Cookie: $cookie" -d "$data" $url)
+        response=$(curl -s -X POST -H "Content-Type: application/json" -H "Cookie: $cookie"  $url)
         msg=$(echo $response | jq -r '.msg')
 
         if [ "$msg" = "SUCCESS" ]; then

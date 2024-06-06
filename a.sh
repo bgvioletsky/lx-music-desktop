@@ -4,7 +4,7 @@ url="https://tiku.fenbi.com/activity/userquiz/updateUserQuestionInfo?sheetType=1
 
 cookie="sid=1100891;persistent=cIhKDhswJMdZWRYFmTuyY9WdnZGpd52edSYbAPeSuTP6KVxwhlLnCcMeEo0L515H2EymJrwmDCi99kiaCKrqfQ==;sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%22118039924%22%2C%22first_id%22%3A%2218b4faca706f54-05d58e7c770956-17525634-1296000-18b4faca7072433%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22%24device_id%22%3A%2218b4faca706f54-05d58e7c770956-17525634-1296000-18b4faca7072433%22%2C%22identities%22%3A%22eyIkaWRlbnRpdHlfY29va2llX2lkIjoiMThiNGZiMDY3YmExNGMyLTBkOWQ2OGZmYTYxOWZjOC0xNzUyNTYzNC0xMjk2MDAwLTE4YjRmYjA2N2JiMjcxNSIsIiRpZGVudGl0eV9sb2dpbl9pZCI6IjExODAzOTkyNCJ9%22%2C%22history_login_id%22%3A%7B%22name%22%3A%22%24identity_login_id%22%2C%22value%22%3A%22118039924%22%7D%7D; sess=srYvurm1EHqL+5JsPlz/c4dggT+wkaq+nxkbMrQO2n7X554711INy/sLGoLHpi0BD9enKAWD6SpZE778+myLajJEc9PMsLyEcMXmf7JD34U=; userid=118039924; acw_tc=0bd17c6617168031159852753ec871911f26290ddc48c823ae338a909ebb3a"
 
-response=$(curl -s -X POST -H "Content-Type: application/json" -H "Cookie: $cookie" -d "$data" $url)
+response=$(curl -s -X POST -H "Content-Type: application/json" -H "Cookie: $cookie"  $url)
 msg=$(echo $response | jq -r '.msg')
 
 if [ "$msg" = "SUCCESS" ]; then
