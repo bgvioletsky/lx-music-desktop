@@ -31,7 +31,7 @@ jobs:
         msg=$(echo $response | jq -r '.msg')
 
         if [ "$msg" = "SUCCESS" ]; then
-             echo "修改题目数量为${kk}成功"
+             echo "修改题目数量为${{github.event.inputs.number}}成功"
         else
-             echo "修改题目数量为${kk}失败"
+             echo "修改题目数量为${{github.event.inputs.number}}失败"
         fi
