@@ -2,45 +2,10 @@ name: test
 on:
   workflow_dispatch:
       inputs:
-        choice:
-          description: '是否手动输入版本号'
-          required: true
-          default: 'false'
-          type: choice
-          options:
-            - true
-            - false 
-        mac:
-          description: 'mac编译'
-          default: false
-          type: boolean
-        windows:
-          description: 'windows编译'
-          default: true
-          type: boolean
-        liunx:
-          description: 'liunx编译'
-          default: false
-          type: boolean
         version:
           description: '版本号'
           required: false
           default: 0.0.1
-        detail:
-          description: '发布页详情'
-          required: false
-          default: '发布文件'
-          type: string
-        release:
-          description: '发布到release'
-          required: true
-          default: true
-          type: boolean
-        artifact:
-          description: '发布到artifact'
-          required: false
-          default: false
-          type: boolean
         keeps:
           description: '启动删除'
           required: true
